@@ -1,0 +1,34 @@
+//buildscript {
+//    repositories {
+//        mavenCentral()
+//    }
+//    dependencies {
+//        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.0.RELEASE")
+//    }
+//}
+
+group 'icosahedron'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+//apply plugin: 'org.springframework.boot'
+//apply plugin: 'io.spring.dependency-management'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.apache.commons:commons-lang3:3.9'
+    compile 'com.h2database:h2:1.4.197'
+    compile 'org.springframework.boot:spring-boot-starter-jdbc:2.1.0.RELEASE'
+    compile 'ch.qos.logback:logback-classic:1.2.3'
+    
+    testCompile 'org.spockframework:spock-core:1.2-groovy-2.5'
+    testCompile 'org.spockframework:spock-spring:1.2-groovy-2.5'
+    testCompile 'org.springframework.boot:spring-boot-starter-test:2.1.0.RELEASE'
+}

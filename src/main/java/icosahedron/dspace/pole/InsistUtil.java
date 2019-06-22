@@ -1,7 +1,5 @@
 package icosahedron.dspace.pole;
 
-import icosahedron.dspace.Particle;
-
 import java.util.Arrays;
 
 public final class InsistUtil {

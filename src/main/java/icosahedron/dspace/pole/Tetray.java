@@ -1,70 +1,69 @@
 package icosahedron.dspace.pole;
 
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.ArrayList;
-import java.util.List;
-
-public class Tetray<T> {
-    private final List<T> components = new ArrayList<>(4);
-
-    public Tetray(final T w, final T x, final T y, final T z) {
-        InsistUtil.insistNotNull(w, "w");
-        InsistUtil.insistNotNull(x, "x");
-        InsistUtil.insistNotNull(y, "y");
-        InsistUtil.insistNotNull(z, "z");
-        this.components.add(w);
-        this.components.add(x);
-        this.components.add(y);
-        this.components.add(z);
-    }
-
-    public Tetray(final Tetray<T> tetray) {
-        this.components.addAll(tetray.components);
-    }
-
-    public final T get(final int direction) {
-        insistIndexIsInBounds(direction);
-        return components.get(direction);
-    }
-
-    public void put(final int direction, final T value) {
-        insistIndexIsInBounds(direction);
-        InsistUtil.insistNotNull(value, "value");
-        components.set(direction, value);
-    }
-
-    public final String asString(final String leftBracket, final String rightBracket, final String separator) {
-        return leftBracket + StringUtils.join(components, separator) + rightBracket;
-    }
-
-    @Override
-    public final boolean equals(final Object other) {
-        if (this == other) {
-            return true;
+public final class Tetray {
+    public enum Direction { W, X, Y, Z;
+        private long getOffset(final long[] offsets) {
+            return offsets[ordinal()];
         }
 
-        if (other == null || this.getClass() != other.getClass()) {
-            return false;
+        private void setOffset(final long[] offsets, final long offset) {
+            offsets[ordinal()] = InsistUtil.insistIsNotNegative(offset);
         }
 
-        final Tetray that = (Tetray) other;
-        return this.components.equals(that.components);
-    }
-
-    @Override
-    public final int hashCode() {
-        return this.components.hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return asString("(", ",", ")");
-    }
-
-    private void insistIndexIsInBounds(final int index) {
-        if (index < 0 || index > 3) {
-            throw new IndexOutOfBoundsException("Index is not in [0,3]: " + index);
+        private void incrementOffset(final long[] offsets) {
+            offsets[ordinal()] += 1;
         }
+
+        private void decrementOffset(final long[] offsets) {
+            offsets[ordinal()] -= 1;
+        }
+
+        private boolean canDecrementOffset(final long[] offsets) {
+            return offsets[ordinal()] != 0;
+        }
+    }
+
+    private final long[] offsets = new long[4];
+
+    public Tetray() {}
+
+    public Tetray(final long w, final long x, final long y, final long z) {
+        offsets[0] = InsistUtil.insistIsNotNegative(w);
+        offsets[1] = InsistUtil.insistIsNotNegative(x);
+        offsets[2] = InsistUtil.insistIsNotNegative(y);
+        offsets[3] = InsistUtil.insistIsNotNegative(z);
+    }
+
+    public Tetray copy() {
+        final Tetray tetray = new Tetray();
+        tetray.offsets[0] = offsets[0];
+        tetray.offsets[1] = offsets[1];
+        tetray.offsets[2] = offsets[2];
+        tetray.offsets[3] = offsets[3];
+        return tetray;
+    }
+
+    public long get(final Direction direction) {
+        return direction.getOffset(offsets);
+    }
+
+    public void set(final Direction direction, final long offset) {
+        direction.setOffset(offsets, offset);
+    }
+
+    public void increment(final Direction direction) {
+        direction.incrementOffset(offsets);
+    }
+
+    public void decrement(final Direction direction) {
+        direction.decrementOffset(offsets);
+    }
+
+    public boolean canDecrement(final Direction direction) {
+        return direction.canDecrementOffset(offsets);
+    }
+
+    public long totalOffset() {
+        return offsets[0] + offsets[1] + offsets[2] + offsets[3];
     }
 }

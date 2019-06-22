@@ -1,24 +1,27 @@
 package icosahedron.dspace.pole;
 
-public final class Location extends Tetray<Long> {
-    public Location(final long w, final long x, final long y, final long z) {
-        super(w, x, y, z);
-        InsistUtil.insistIsNotNegative(w);
-        InsistUtil.insistIsNotNegative(x);
-        InsistUtil.insistIsNotNegative(y);
-        InsistUtil.insistIsNotNegative(z);
+import static icosahedron.dspace.pole.Tetray.Direction;
+
+public final class Location {
+    private final Tetray tetray;
+
+    public Location (final long w, final long x, final long y, final long z) {
+        this.tetray = new Tetray(w, x, y, z);
     }
 
     public Location(final Location location) {
-        super(location);
+        this.tetray = location.tetray.copy();
     }
 
-    public long stepCount() {
-        return get(0) + get(1) + get(2) + get(3);
+    public long coordinate(final Direction direction) {
+        return tetray.get(direction);
     }
 
-    public void put(final int direction, final long value) {
-        InsistUtil.insistIsNotNegative(value);
-        super.put(direction, value);
+    public void move(final Direction direction) {
+        tetray.increment(direction);
+    }
+
+    public long displacement() {
+        return tetray.totalOffset();
     }
 }

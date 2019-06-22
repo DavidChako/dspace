@@ -3,6 +3,7 @@ package icosahedron.dspace.test
 
 import icosahedron.dspace.data.SpaceDataKeeper
 import icosahedron.dspace.data.SpaceDataSourceFactory
+import icosahedron.dspace.pole.Tetray
 import org.springframework.jdbc.core.JdbcTemplate
 import spock.lang.Shared
 import spock.lang.Specification

@@ -9,8 +9,8 @@ public class SpaceDataKeeper {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-//    public void insert(final Tetray tetray) {
-//        this.jdbcTemplate.update(Tetray.INSERT_TEMPLATE, tetray);
+//    public void insert(final GenericTetray tetray) {
+//        this.jdbcTemplate.update(GenericTetray.INSERT_TEMPLATE, tetray);
 //    }
 //    public class UserDaoImpl implements UserDao {
 //

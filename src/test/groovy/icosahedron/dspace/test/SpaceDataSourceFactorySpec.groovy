@@ -1,12 +1,11 @@
 package icosahedron.dspace.test
 
-import icosahedron.dspace.data.SpaceDataSourceConfiguration
+
 import icosahedron.dspace.data.SpaceDataSourceFactory
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.jdbc.core.JdbcTemplate
-import org.springframework.test.context.ContextConfiguration
+import spock.lang.Ignore
 import spock.lang.Specification
 
+@Ignore
 final class SpaceDataSourceFactorySpec extends Specification {
     def "create and exercise embedded H2 datasource"() {
         given:

@@ -1,7 +1,5 @@
 package icosahedron.dspace.pole;
 
-import java.util.Arrays;
-
 public final class InsistUtil {
     private InsistUtil() {}
 
@@ -39,62 +37,5 @@ public final class InsistUtil {
         }
 
         return candidate;
-    }
-
-    public static double insistIsNotNegative(final double candidate) {
-        if (candidate < 0) {
-            throw new IllegalArgumentException("candidate is negative: " + candidate);
-        }
-
-        return candidate;
-    }
-
-    public static boolean particlesHaveSameTiming(final Particle... particles) {
-        if (particles == null || particles.length < 2) {
-            return true;
-        }
-
-        for (int n = 0; n < particles.length-1; ++n) {
-            if (particles[n].timing() != particles[n+1].timing()) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public static void insistParticlesHaveSameTiming(final Particle ... particles) {
-        if (!particlesHaveSameTiming(particles)) {
-            throw new IllegalArgumentException("Particles do not have same timing: " + Arrays.asList(particles));
-        }
-    }
-
-    public static boolean particlesHaveSameFrequency(final Particle ... particles) {
-        if (particles == null || particles.length < 2) {
-            return true;
-        }
-
-        for (int n = 0; n < particles.length-1; ++n) {
-            if (particles[n].frequency() != particles[n+1].frequency()) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public static void insistParticlesHaveSameFrequency(final Particle ... particles) {
-        if (!particlesHaveSameFrequency(particles)) {
-            throw new IllegalArgumentException("Particles do not have same frequency: " + Arrays.asList(particles));
-        }
-    }
-
-    public static boolean particlesAreSynchronized(final Particle ... particles) {
-        return particlesHaveSameTiming(particles) && particlesHaveSameFrequency(particles);
-    }
-
-    public static void insistParticlesAreSynchronized(final Particle ... particles) {
-        insistParticlesHaveSameTiming(particles);
-        insistParticlesHaveSameFrequency(particles);
     }
 }

@@ -1,32 +1,27 @@
 package icosahedron.dspace.pole;
 
-import static icosahedron.dspace.pole.Tetray.Direction;
-
 public final class Inertia {
-    private final Tetray tetray;
+    private final Tetray weights;
+    private final Action<Direction> step;
 
-    public Inertia(final long w, final long x, final long y, final long z) {
-        this.tetray = new Tetray(w, x, y, z);
+    public Inertia(final Tetray weights) {
+        this(new Action<>(weights.sum()), weights);
     }
 
-    public Inertia(final Inertia inertia) {
-        this.tetray = inertia.tetray.copy();
+    public Inertia(final Action<Direction> step, final Tetray weights) {
+        this.step = step;
+        this.weights = weights;
     }
 
     public long weight(final Direction direction) {
-        return tetray.get(direction);
+        return weights.get(direction);
     }
 
-    public boolean canAccelerateAwayFrom(final Direction direction) {
-        return tetray.canDecrement(direction);
+    public void accelerate(final Acceleration acceleration) {
+        acceleration.applyTo(weights);
     }
 
-    public void accelerate(final Direction awayFrom, final Direction towards) {
-        tetray.decrement(awayFrom);
-        tetray.increment(towards);
-    }
-
-    public long totalWeight() {
-        return tetray.totalOffset();
+    public long mass() {
+        return weights.sum();
     }
 }

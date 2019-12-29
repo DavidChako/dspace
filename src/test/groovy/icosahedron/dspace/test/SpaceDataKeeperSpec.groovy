@@ -5,9 +5,11 @@ import icosahedron.dspace.data.SpaceDataKeeper
 import icosahedron.dspace.data.SpaceDataSourceFactory
 import icosahedron.dspace.pole.Tetray
 import org.springframework.jdbc.core.JdbcTemplate
+import spock.lang.Ignore
 import spock.lang.Shared
 import spock.lang.Specification
 
+@Ignore
 final class SpaceDataKeeperSpec extends Specification {
     @Shared factory = new SpaceDataSourceFactory()
     @Shared dataSource = factory.createEmbeddedH2DataSource()

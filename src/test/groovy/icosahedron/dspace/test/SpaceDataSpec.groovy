@@ -5,11 +5,13 @@ import icosahedron.dspace.data.SpaceDataSourceFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.test.context.ContextConfiguration
+import spock.lang.Ignore
 import spock.lang.Shared
 import spock.lang.Specification
 
 import java.util.concurrent.ThreadLocalRandom
 
+@Ignore
 @ContextConfiguration(classes = [SpaceDataSourceConfiguration])
 final class SpaceDataSpec extends Specification {
     @Autowired JdbcTemplate jdbcTemplate

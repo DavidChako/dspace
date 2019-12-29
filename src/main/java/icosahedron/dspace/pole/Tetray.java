@@ -1,69 +1,51 @@
 package icosahedron.dspace.pole;
 
+import java.util.function.Function;
+
 public final class Tetray {
-    public enum Direction { W, X, Y, Z;
-        private long getOffset(final long[] offsets) {
-            return offsets[ordinal()];
-        }
-
-        private void setOffset(final long[] offsets, final long offset) {
-            offsets[ordinal()] = InsistUtil.insistIsNotNegative(offset);
-        }
-
-        private void incrementOffset(final long[] offsets) {
-            offsets[ordinal()] += 1;
-        }
-
-        private void decrementOffset(final long[] offsets) {
-            offsets[ordinal()] -= 1;
-        }
-
-        private boolean canDecrementOffset(final long[] offsets) {
-            return offsets[ordinal()] != 0;
-        }
-    }
-
-    private final long[] offsets = new long[4];
-
-    public Tetray() {}
+    private final Counter w;
+    private final Counter x;
+    private final Counter y;
+    private final Counter z;
+    private long sum;
 
     public Tetray(final long w, final long x, final long y, final long z) {
-        offsets[0] = InsistUtil.insistIsNotNegative(w);
-        offsets[1] = InsistUtil.insistIsNotNegative(x);
-        offsets[2] = InsistUtil.insistIsNotNegative(y);
-        offsets[3] = InsistUtil.insistIsNotNegative(z);
+        this.w = new Counter(w);
+        this.x = new Counter(x);
+        this.y = new Counter(y);
+        this.z = new Counter(z);
+        this.sum = w + x + y + z;
     }
 
-    public Tetray copy() {
-        final Tetray tetray = new Tetray();
-        tetray.offsets[0] = offsets[0];
-        tetray.offsets[1] = offsets[1];
-        tetray.offsets[2] = offsets[2];
-        tetray.offsets[3] = offsets[3];
-        return tetray;
+    public final long get(final Direction direction) {
+        return counter(direction).count();
     }
 
-    public long get(final Direction direction) {
-        return direction.getOffset(offsets);
+    public final void increment(final Direction direction) {
+        counter(direction).increment();
+        ++sum;
     }
 
-    public void set(final Direction direction, final long offset) {
-        direction.setOffset(offsets, offset);
+    public final void decrement(final Direction direction) {
+        counter(direction).decrement();
+        --sum;
     }
 
-    public void increment(final Direction direction) {
-        direction.incrementOffset(offsets);
+    public long sum() {
+        return sum;
     }
 
-    public void decrement(final Direction direction) {
-        direction.decrementOffset(offsets);
+    public static Function<Tetray,Counter> counterExtractor(final Direction direction) {
+        switch (direction) {
+            case W: return tetray -> tetray.w;
+            case X: return tetray -> tetray.x;
+            case Y: return tetray -> tetray.y;
+            case Z: return tetray -> tetray.z;
+            default: throw new IllegalArgumentException("Direction not supported: " + direction);
+        }
     }
 
-    public boolean canDecrement(final Direction direction) {
-        return direction.canDecrementOffset(offsets);
-    }
-
-    public long totalOffset() {
-        return offsets[0] + offsets[1] + offsets[2] + offsets[3];
+    private Counter counter(final Direction direction) {
+        return direction.extractCounter(this);
     }
 }

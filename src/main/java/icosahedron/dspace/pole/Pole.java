@@ -1,5 +1,7 @@
 package icosahedron.dspace.pole;
 
+import com.icosahedron.dyne.*;
+
 import java.util.concurrent.ThreadLocalRandom;
 
 public final class Pole {

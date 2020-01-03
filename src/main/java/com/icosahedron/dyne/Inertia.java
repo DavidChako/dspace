@@ -1,4 +1,9 @@
-package icosahedron.dspace.pole;
+package com.icosahedron.dyne;
+
+import com.icosahedron.dyne.Acceleration;
+import com.icosahedron.dyne.Action;
+import com.icosahedron.dyne.Direction;
+import com.icosahedron.dyne.Tetray;
 
 public final class Inertia {
     private final Tetray weights;
